@@ -100,6 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   authenticated = false;
   isAdmin: boolean;
+  isRpct: boolean;
   userData: any;
   menuLinks: any[];
 
