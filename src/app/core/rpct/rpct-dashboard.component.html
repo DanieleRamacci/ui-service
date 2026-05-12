@@ -1,0 +1,10 @@
+<div class="container my-4">
+  <h2>RPCT Dashboard</h2>
+  <p>Benvenuto, <strong>{{ userName }}</strong></p>
+  <p>Enti associati al tuo account:</p>
+  <ul>
+    @for (ipa of rpctIpas; track ipa) {
+      <li>{{ ipa }}</li>
+    }
+  </ul>
+</div>

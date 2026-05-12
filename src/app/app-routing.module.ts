@@ -21,6 +21,7 @@ import { ResultPieRuleComponent } from './core/result/result-pie-rule.component'
 import { ServiceInfoComponent } from './core/info/service-info.component';
 import { ChatComponent } from './core/ai/chat.component';
 import { HistoryComponent } from './core/result/history.component';
+import { RpctDashboardComponent } from './core/rpct/rpct-dashboard.component';
 
 // Guard condizionale basata sull'environment
 const shouldEnforceOidc = environment.oidc.enable && !(environment.devBypassAdminAuth && !environment.production);
@@ -39,6 +40,12 @@ const appRoutes: Routes = [
       { path: 'company-graph', component: CompanyGraphComponent },
       { path: 'result-pie', component: ResultPieComponent },
       { path: 'credits', component: CreditsComponent },
+      {
+        path: 'dashboard',
+        component: RpctDashboardComponent,
+        canActivate: [...oidcGuard, AuthGuard],
+        data: { role: RoleEnum.RPCT }
+      },
       {
         path: 'history',
         component: HistoryComponent,
