@@ -1,10 +1,72 @@
 <div class="container my-4">
   <h2>RPCT Dashboard</h2>
-  <p>Benvenuto, <strong>{{ userName }}</strong></p>
-  <p>Enti associati al tuo account:</p>
-  <ul>
-    @for (ipa of rpctIpas; track ipa) {
-      <li>{{ ipa }}</li>
-    }
-  </ul>
+  <p class="text-muted">Benvenuto, <strong>{{ userName }}</strong></p>
+
+  @if (isLoading) {
+    <div class="d-flex justify-content-center my-5">
+      <it-progress-spinner></it-progress-spinner>
+    </div>
+  } @else if (rows.length === 0) {
+    <it-alert type="warning">
+      Nessuna amministrazione associata al tuo account.
+    </it-alert>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Amministrazione</th>
+            <th>Ultima scansione</th>
+            <th>Stato</th>
+            <th class="text-center">Sezioni OK</th>
+            <th class="text-center">Non regolari</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track row.codiceIpa) {
+            <tr style="cursor: pointer" (click)="goToDetail(row.codiceIpa)">
+              <td>
+                <strong>{{ row.denominazioneEnte }}</strong>
+                <br><small class="text-muted">{{ row.codiceIpa }}</small>
+              </td>
+              <td>
+                @if (row.lastScanDate) {
+                  {{ row.lastScanDate | date:'dd/MM/yyyy HH:mm' }}
+                } @else {
+                  <span class="text-muted">—</span>
+                }
+              </td>
+              <td>
+                @if (row.status) {
+                  <span [class]="'badge bg-' + row.badge">{{ row.status }}</span>
+                } @else {
+                  <span class="text-muted">—</span>
+                }
+              </td>
+              <td class="text-center">
+                @if (row.loading) {
+                  <it-progress-spinner [small]="true"></it-progress-spinner>
+                } @else {
+                  <span class="badge bg-success">{{ row.sezioniOk }}</span>
+                }
+              </td>
+              <td class="text-center">
+                @if (row.loading) {
+                  <it-progress-spinner [small]="true"></it-progress-spinner>
+                } @else {
+                  <span [class]="row.sezioniNonRegolari > 0 ? 'badge bg-danger' : 'badge bg-success'">
+                    {{ row.sezioniNonRegolari }}
+                  </span>
+                }
+              </td>
+              <td class="text-end">
+                <it-icon name="chevron-right" color="primary"></it-icon>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
