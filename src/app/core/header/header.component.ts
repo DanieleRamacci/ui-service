@@ -156,6 +156,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.oidcSecurityService.userData$.subscribe(({ userData }) => {
               this.userData = userData;
               this.isAdmin = this.authGuard.hasRolesFromUserData([RoleEnum.ADMIN], userData);
+              this.isRpct = this.authGuard.hasRolesFromUserData([RoleEnum.RPCT], userData);
             });
         });
       } else {
@@ -164,6 +165,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.oidcSecurityService.userData$.subscribe(({ userData }) => {
             this.userData = userData;
             this.isAdmin = this.authGuard.hasRolesFromUserData([RoleEnum.ADMIN], userData);
+            this.isRpct = this.authGuard.hasRolesFromUserData([RoleEnum.RPCT], userData);
           });    
         });
       }    
